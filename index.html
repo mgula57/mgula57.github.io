@@ -2,13 +2,10 @@
 
 <html>
 <head>
-<title>img_loader</title>
 
 <!-- STYLE -->
 <style type="text/css">
-	body.noscroll
-
-	{
+	body.noscroll {
 		position: fixed;
 		overflow-x: hidden;
 		overflow-y: hidden;
@@ -19,75 +16,62 @@
 <!-- SCRIPT -->
 <script type="text/javascript">
 
+	// ATTRIBUTES
 	var imgUrl;
 	var imgheight;
 	var imgwidth;
 
-	function getMeta(url, callback) {
+	// GRABS IMAGE METADATA FROM URL ON LOAD
+	function getImgMetadata(url, callback) {
 		var img = new Image();
 		img.src = url;
 		img.onload = function() { callback(this.width, this.height); }
 	}
 
-	function fn() {
+	// TRIGGER LOADING OF IMAGE FROM URL
+	function loadImage() {
 
+		// CONSTANTS
 		document.compatMode == 'CSS1Compat'
 		var queryString = window.location.href;
 		queryString.replace("#","%23");
 		queryString = queryString.substring(queryString.indexOf("?"));
-		console.log(queryString);
 		const urlParams = new URLSearchParams(queryString);
-		console.log(urlParams);
+
+		// PARSE URL
 		imgUrl = urlParams.get('img');
-		if (imgUrl == ""){
+		if (imgUrl == "") {
 			imgUrl="https://drive.google.com/uc?id=1A0u85PZhMzf8lFyu0rHFehFD1yikfbBQ";
 		}
-		console.log(imgUrl);
-		link = urlParams.get('link');
-		console.log(link);
-		target = urlParams.get('target');
 		background = urlParams.get('color');
-		console.log(background);
-		if (link){
-		document.getElementById('myLink').href = link;
+		if (background) {
+			document.getElementById('myBody').style.backgroundColor = background;
 		}
-		if (target){
-		if (target == "new"){
-			document.getElementById('myLink').target = "_blank";
-		}
-		}
-		if (background){
-		document.getElementById('myBody').style.backgroundColor = background;
-			}
 			
-			getMeta(
+		// GRAB IMAGE METADATA FROM URL ON LOAD
+		getImgMetadata(
 			imgUrl,
 			function(width, height) {
-				imgwidth=width; 
-				imgheight=height;
+				// WIDTHS AND HEIGHTS
+				imgwidt = width;
+				imgheight = height;
 				var w = document.body.offsetWidth;
 				var h = document.documentElement.offsetHeight;
 				var h2 = document.body.offsetHeight;
 				var h3 = window.innerHeight;
 
+				// HANDLE DIFFERENT WIDTHS/HEIGHTS BEING POPULATED
 				if(h < h2) {
 					h = h2;
 				}
-
 				if(h3 != 'undefined' && h < h3) {
 					h = h3;
 				}
 
 				document.getElementById('myTd').style.height = h+'px';
-
-
-				console.log(w);
-				console.log(imgwidth);
-				console.log(h);
-				console.log(imgheight);
 				if(imgwidth/w <= imgheight/h) {
 					w = imgwidth * h/imgheight;
-				}else{
+				} else {
 					h = imgheight * w/imgwidth;
 				}
 				document.getElementById('myImage').src = imgUrl;
@@ -95,32 +79,25 @@
 				document.getElementById('myImage').height = h;	  	  
 			}
 			);
-			
-			
 		}
 
+		// HANDLE WINDOW RESIZE
 		window.onresize = function() {
-
+			// WIDTHS AND HEIGHTS
 			var w = document.body.offsetWidth;
 			var h = document.documentElement.offsetHeight;
 			var h2 = document.body.offsetHeight;
 			var h3 = window.innerHeight;
 
+			// HANDLE DIFFERENT WIDTHS/HEIGHTS BEING POPULATED
 			if(h < h2) {
 				h = h2;
 			}
-
 			if(h3 != 'undefined' && h < h3) {
 				h = h3;
 			}
 
 			document.getElementById('myTd').style.height = h+'px';
-
-
-			console.log(w);
-			console.log(imgwidth);
-			console.log(h);
-			console.log(imgheight);
 			if(imgwidth/w <= imgheight/h) {
 				w = imgwidth * h/imgheight;
 			}else{
@@ -129,21 +106,18 @@
 			document.getElementById('myImage').src = imgUrl;
 			document.getElementById('myImage').width = w;
 			document.getElementById('myImage').height = h;	
-
 		}
 
 </script>
-
 </head>
 
-<body onload="fn()" id="myBody" class="noscroll" style="margin:0px;background-color:white;">
+<!-- BODY -->
+<body onload="loadImage()" id="myBody" class="noscroll" style="margin:0px;background-color:white;">
 	<table style="width:100%;border-spacing:0px">
 		<tbody>
 			<tr>
 				<td id="myTd" style="text-align:center;padding:0px">
-					<a id="myLink" target="_top" href="">
-						<img src='' id="myImage" alt="Click to open image in new window"/>
-					</a>
+					<img src='' id="myImage" alt=""/>
 				</td>
 			</tr>
 		</tbody>
