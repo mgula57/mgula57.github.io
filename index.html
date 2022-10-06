@@ -41,19 +41,18 @@
 		// PARSE URL
 		imgUrl = urlParams.get('img');
 		if (imgUrl == "") {
-			imgUrl="https://drive.google.com/uc?id=1A0u85PZhMzf8lFyu0rHFehFD1yikfbBQ";
+			imgUrl = "https://drive.google.com/uc?id=1A0u85PZhMzf8lFyu0rHFehFD1yikfbBQ";
 		}
 		background = urlParams.get('color');
 		if (background) {
 			document.getElementById('myBody').style.backgroundColor = background;
 		}
-			
 		// GRAB IMAGE METADATA FROM URL ON LOAD
 		getImgMetadata(
 			imgUrl,
 			function(width, height) {
 				// WIDTHS AND HEIGHTS
-				imgwidt = width;
+				imgwidth = width;
 				imgheight = height;
 				var w = document.body.offsetWidth;
 				var h = document.documentElement.offsetHeight;
@@ -116,8 +115,8 @@
 	<table style="width:100%;border-spacing:0px">
 		<tbody>
 			<tr>
-				<td id="myTd" style="text-align:center;padding:0px">
-					<img src='' id="myImage" alt=""/>
+				<td id="myTd" style="text-align:center; padding:0px;">
+					<img src='' id="myImage" alt="Loading..." />
 				</td>
 			</tr>
 		</tbody>
